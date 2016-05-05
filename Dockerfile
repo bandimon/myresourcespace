@@ -5,6 +5,7 @@ MAINTAINER Diego Picciani <bandimon@gmail.com>
 # ricordarsi di mappare sempre :
 #    /var/lib/mysql
 #    /var/www/html/filestore
+#
 
 # aggiornamento repository
 RUN apt-get update
