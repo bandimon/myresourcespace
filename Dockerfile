@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-MAINTAINER Diego Picciani <diego.picciani@aeffe.com>
+MAINTAINER Diego Picciani <bandimon@gmail.com>
 
 # ricordarsi di mappare sempre :
 #    /var/lib/mysql
