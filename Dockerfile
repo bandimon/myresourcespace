@@ -1,11 +1,10 @@
 FROM ubuntu:14.04
 
-MAINTAINER Diego Picciani <bandimon@gmail.com>
+MAINTAINER Diego Picciani <diego.picciani@aeffe.com>
 
 # ricordarsi di mappare sempre :
 #    /var/lib/mysql
 #    /var/www/html/filestore
-######
 
 # aggiornamento repository
 RUN apt-get update
@@ -21,7 +20,7 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 #installazione Apache, MySQL, PHP5 e tutte le utility necessarie
 RUN add-apt-repository ppa:mc3man/trusty-media
 RUN apt-get update
-RUN apt-get install -qy mysql-server mysql-client apache2 php5 php5-dev php5-gd php5-mysql subversion vim nano less mc sudo unoconv imagemagick ghostscript libgs-dev antiword xpdf libav-tools ffmpeg libimage-exiftool-perl cron wget poppler-utils
+RUN apt-get install -qy mysql-server mysql-client apache2 php5 php5-dev php5-gd php5-mysql subversion vim nano less mc sudo unoconv imagemagick ghostscript libgs-dev antiword xpdf libav-tools ffmpeg libimage-exiftool-perl cron wget poppler-utils zip
 
 #configurazione PHP5
 RUN sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 8G/g" /etc/php5/apache2/php.ini
@@ -65,6 +64,17 @@ RUN echo '$video_preview_original=false;' >> /var/www/html.first/include/config.
 RUN echo '$ffmpeg_preview_async=false;' >> /var/www/html.first/include/config.new_installs.php
 RUN echo '$ffmpeg_get_par=false;' >> /var/www/html.first/include/config.new_installs.php
 RUN echo '$ffmpeg_use_qscale = true;' >> /var/www/html.first/include/config.new_installs.php
+
+# aggiungo le funzionalita' per il donwload ZIP
+RUN echo '$archiver_path = "/usr/bin";' >> /var/www/html.first/include/config.new_installs.php
+RUN echo '$archiver_executable = "zip";' >> /var/www/html.first/include/config.new_installs.php
+RUN echo '$archiver_listfile_argument = "-@ <";' >> /var/www/html.first/include/config.new_installs.php
+RUN echo '$collection_download = true;' >> /var/www/html.first/include/config.new_installs.php
+RUN echo '$collection_download_max_size = 10 * 1024 * 1024 * 1024; # default 10GB.' >> /var/www/html.first/include/config.new_installs.php
+RUN echo '$collection_download_settings[0]["name"] = "ZIP";' >> /var/www/html.first/include/config.new_installs.php
+RUN echo '$collection_download_settings[0]["extension"] = "zip";' >> /var/www/html.first/include/config.new_installs.php
+RUN echo '$collection_download_settings[0]["arguments"] = "-j";' >> /var/www/html.first/include/config.new_installs.php
+RUN echo '$collection_download_settings[0]["mime"] = "application/zip";' >> /var/www/html.first/include/config.new_installs.php
 
 # aggiungo il processo cron per il savataggio del db
 RUN echo '#!/bin/bash' > /etc/cron.hourly/backupdb.sh
