@@ -18,5 +18,6 @@ if [ ! -f /var/www/html/filestore ]; then
 	chmod 777 filestore
 	chmod -R 777 include
 fi
+cron
 cd /
 /bin/bash
