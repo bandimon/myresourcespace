@@ -28,10 +28,18 @@ RUN sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 1G/g" /etc/php5/apache2/
 RUN sed -i -e "s/max_execution_time\s*=\s*30/max_execution_time = 1000/g" /etc/php5/apache2/php.ini
 RUN sed -i -e "s/memory_limit\s*=\s*128M/memory_limit = 8G/g" /etc/php5/apache2/php.ini
 
-#scarico ed installo ResourceSpace
+#scarico ed installo ResourceSpace (trunk)
+#RUN mkdir /var/www/html.first \
+#    && cd /var/www/html.first \
+#	&& svn co http://svn.resourcespace.org/svn/rs/trunk . \
+#	&& mkdir filestore \
+#	&& chmod 777 filestore \
+#	&& chmod -R 777 include
+
+#scarico ed installo ResourceSpace versione 7.9
 RUN mkdir /var/www/html.first \
     && cd /var/www/html.first \
-	&& svn co http://svn.resourcespace.org/svn/rs/trunk . \
+	&& svn co http://svn.resourcespace.org/svn/rs/releases/7.9 . \
 	&& mkdir filestore \
 	&& chmod 777 filestore \
 	&& chmod -R 777 include
