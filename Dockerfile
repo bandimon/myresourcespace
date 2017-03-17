@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-MAINTAINER Diego Picciani <bandimon@gmail.com>
+MAINTAINER Diego Picciani <*bandi*mon*@gmail.com>  (please remove *)
 
 # ricordarsi di mappare sempre :
 #    /var/lib/mysql
