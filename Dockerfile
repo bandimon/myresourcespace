@@ -86,15 +86,19 @@ RUN echo '$collection_download_settings[0]["mime"] = "application/zip";' >> /var
 
 # aggiungo il processo cron per il savataggio del db
 #RUN echo '#!/bin/bash' > /etc/cron.hourly/backupdb.sh
-#RUN echo 'mysqldump resourcespace | gzip -9 > /var/lib/mysql/resourcespace.sql.gz' > /etc/cron.hourly/backupdb.sh
+#RUN echo 'mysqldump resourcespace | gzip -9 > /var/lib/mysql/resourcespace.sql.gz' >> /etc/cron.hourly/backupdb.sh
 #RUN chmod 777  /etc/cron.hourly/backupdb.sh
 
 # aggiungo il processo cron per il processing automatico di resourcespace
 #RUN echo '#!/bin/bash' > /etc/cron.daily/resourcespacetask.sh
-#RUN echo 'wget http://localhost/batch/cron.php > /tmp/resourcespacetask.lastrun.log' > /etc/cron.daily/resourcespacetask.sh
+#RUN echo 'wget http://localhost/batch/cron.php > /tmp/resourcespacetask.lastrun.log' >> /etc/cron.daily/resourcespacetask.sh
 #RUN chmod 777  /etc/cron.daily/resourcespacetask.sh
 
 # aggiungo il processo cron per il savataggio del db e processing automatico di resourcespace
+RUN echo '#!/bin/bash' > /backupdb.sh
+RUN echo 'mysqldump resourcespace | gzip -9 > /var/lib/mysql/resourcespace.sql.gz' >> /backupdb.sh
+RUN echo '#!/bin/bash' > /resourcespacetask.sh
+RUN echo 'wget http://localhost/batch/cron.php > /tmp/resourcespacetask.lastrun.log' >> /resourcespacetask.sh
 RUN echo '30 4 * * * /backupdb.sh >> /var/log/cron.log 2>&1' >> /var/spool/cron/crontabs/root
 RUN echo '00 4 * * * /resourcespacetask.sh >> /var/log/cron.log 2>&1' >> /var/spool/cron/crontabs/root
 RUN chmod 600 /var/spool/cron/crontabs/root
